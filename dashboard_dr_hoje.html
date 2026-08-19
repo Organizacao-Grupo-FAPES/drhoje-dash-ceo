@@ -452,7 +452,7 @@
           <div class="legend-list" id="p1CarteiraProdutoLegend" style="flex:1;"></div>
         </div>
         <div class="card-subsection">
-          <div class="card-subtitle" id="p1IncDiaTitle">Inclusões Adesão por Dia</div>
+          <div class="card-subtitle" id="p1IncDiaTitle">Inclusões Individuais e Empresariais por Dia</div>
           <div class="chart-box" style="height:120px;"><canvas id="p1BarInclusoes"></canvas></div>
           <div class="entrada-hoje">
             <div class="entrada-hoje-label">Entradas Individual (Hoje)</div>
@@ -814,7 +814,7 @@ function renderPage1(){
 
 
   const p1m = document.getElementById('p1Mensagem'); if(p1m) p1m.textContent = p.mensagem_diretoria;
-  const p1idt = document.getElementById('p1IncDiaTitle'); if(p1idt) p1idt.textContent = `Inclusões Adesão por Dia — ${k.inclusoes_junho_obs}`;
+  const p1idt = document.getElementById('p1IncDiaTitle'); if(p1idt) p1idt.textContent = `Inclusões Individuais e Empresariais por Dia — ${k.inclusoes_junho_obs}`;
 }
 
 /* ---------------- PAGE 2 ---------------- */
