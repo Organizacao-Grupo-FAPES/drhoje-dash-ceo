@@ -746,13 +746,8 @@ function renderPage1(){
 
   const row1 = el('div','destaque-row');
   const dot1 = el('div','destaque-dot'); dot1.style.background = dCol[0];
-  const txt1 = el('div'); txt1.innerHTML = `<span class="destaque-date">Acompanhamento Mensal</span><span class="destaque-text">Inclusões Individual no período de ${mesLabel}: ${fmtInt(adesaoMes)} vidas registradas.</span>`;
+  const txt1 = el('div'); txt1.innerHTML = `<span class="destaque-date">Acompanhamento Mensal</span><span class="destaque-text">Inclusões no período de ${mesLabel}: ${fmtInt(adesaoMes)} Individual e ${fmtInt(empresarialMes)} Empresarial, totalizando ${fmtInt(totalMes)} vidas.</span>`;
   row1.appendChild(dot1); row1.appendChild(txt1); dest.appendChild(row1);
-
-  const row2 = el('div','destaque-row');
-  const dot2 = el('div','destaque-dot'); dot2.style.background = dCol[1];
-  const txt2 = el('div'); txt2.innerHTML = `<span class="destaque-date">Empresarial</span><span class="destaque-text">Inclusão de ${fmtInt(empresarialMes)} vidas no Empresarial, totalizando ${fmtInt(totalMes)} vidas em ${mesLabel}.</span>`;
-  row2.appendChild(dot2); row2.appendChild(txt2); dest.appendChild(row2);
 
   const pmt = p.inclusoes_por_mes_tipo;
   const pmtHeaders = ['TIPO', ...pmt.meses, 'TOTAL GERAL'];
