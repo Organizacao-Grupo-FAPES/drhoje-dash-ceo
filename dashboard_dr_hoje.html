@@ -733,12 +733,26 @@ function renderPage1(){
   }
   const dCol = [COLORS.navy2, COLORS.teal, COLORS.blue];
   const dest = document.getElementById('p1Destaques'); dest.innerHTML = '';
-  p.destaques_periodo.forEach((d,i)=>{
-    const row = el('div','destaque-row');
-    const dot = el('div','destaque-dot'); dot.style.background = dCol[i%3];
-    const txt = el('div'); txt.innerHTML = `<span class="destaque-date">${d.data}</span><span class="destaque-text">${d.texto}</span>`;
-    row.appendChild(dot); row.appendChild(txt); dest.appendChild(row);
-  });
+
+  /* Acompanhamento mensal separado: Individual + Total */
+  const pmtDest = p.inclusoes_por_mes_tipo;
+  const lastMonthIdx = pmtDest.adesao.length - 1;
+  const mesNome = pmtDest.meses[lastMonthIdx] || '';
+  const mesLabel = mesNome.split('-')[0].charAt(0).toUpperCase() + mesNome.split('-')[0].slice(1);
+  const adesaoMes = pmtDest.adesao[lastMonthIdx] || 0;
+  const totalMes = pmtDest.total[lastMonthIdx] || 0;
+
+  const empresarialMes = pmtDest.empresarial[lastMonthIdx] || 0;
+
+  const row1 = el('div','destaque-row');
+  const dot1 = el('div','destaque-dot'); dot1.style.background = dCol[0];
+  const txt1 = el('div'); txt1.innerHTML = `<span class="destaque-date">Acompanhamento Mensal</span><span class="destaque-text">Inclusões Individual no período de ${mesLabel}: ${fmtInt(adesaoMes)} vidas registradas.</span>`;
+  row1.appendChild(dot1); row1.appendChild(txt1); dest.appendChild(row1);
+
+  const row2 = el('div','destaque-row');
+  const dot2 = el('div','destaque-dot'); dot2.style.background = dCol[1];
+  const txt2 = el('div'); txt2.innerHTML = `<span class="destaque-date">Empresarial</span><span class="destaque-text">Inclusão de ${fmtInt(empresarialMes)} vidas no Empresarial, totalizando ${fmtInt(totalMes)} vidas em ${mesLabel}.</span>`;
+  row2.appendChild(dot2); row2.appendChild(txt2); dest.appendChild(row2);
 
   const pmt = p.inclusoes_por_mes_tipo;
   const pmtHeaders = ['TIPO', ...pmt.meses, 'TOTAL GERAL'];
