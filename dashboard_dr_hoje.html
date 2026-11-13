@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DR. HOJE — Dashboard Executivo</title>
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="assets/favicon.ico">
+<link rel="manifest" href="assets/site.webmanifest">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js"></script>
+<link rel="stylesheet" href="assets/css/dashboard.css">
+
+</head>
+
+<body>
+
+<!-- Authentication Overlay Screen -->
+<div id="login-overlay">
+  <div class="login-card">
+    <img src="assets/img/logo-login.png" alt="DR. HOJE" style="height: 48px; width: auto; margin-bottom: 20px; display: block; margin-left: auto; margin-right: auto;">
+    <div class="login-subtitle">Dashboard Executivo de Vendas</div>
+    
+    <div class="login-input-group">
+      <label for="username">Usuário</label>
+      <input type="text" id="username" placeholder="Seu usuário" required>
+    </div>
+    
+    <div class="login-input-group">
+      <label for="password">Senha</label>
+      <input type="password" id="password" placeholder="Sua senha" required>
+    </div>
+    
+    <button class="login-btn" id="login-submit-btn">Acessar Painel</button>
+    <div class="login-error" id="login-error-msg"></div>
+  </div>
+</div>
+
+<div id="main-content-wrap" style="display:none;">
+
+<div class="wrap">
+
+  <div class="header">
+    <div class="header-left">
+      <div class="brand">
+        <div class="brand-logo-box"><img class="brand-logo" src="assets/img/logo-header.png" alt="dr.hoje"></div>
+      </div>
+      <div class="header-titles">
+        <div class="header-kicker" id="hdrKicker">VISÃO EXECUTIVA</div>
+        <div class="header-title" id="hdrTitle">CARTEIRA DE BENEFICIÁRIOS</div>
+        <div class="header-subtitle" id="hdrSubtitle"></div>
+      </div>
+    </div>
+    <div class="date-chip">
+      <div class="lbl">POSIÇÃO EM</div>
+      <div class="val" id="hdrDate">--/--/----</div>
+    </div>
+  </div>
+
+  <div class="tabs" style="display: none;">
+    <button class="tab-btn active" data-tab="1">Visão Executiva Vendas</button>
+    <button class="tab-btn" data-tab="2">Visão Executiva</button>
+    <button class="tab-btn" data-tab="3">Vidas Ativas por Produto</button>
+    <button class="tab-btn" data-tab="4">Faturamento</button>
+    <button class="tab-btn play-pause-btn" id="btnPlayPause" style="display: none; background: #16A085; color: white; border-color: #16A085; margin-left: auto;">⏸ Pausar</button>
+  </div>
+
+  <!-- PAGE 1 -->
+  <div class="panel active" id="panel-1">
+    <div class="row row-4" id="p1-kpis"></div>
+    <div class="row row-3-253">
+      <div class="card">
+        <div class="card-title">Composição da Carteira</div>
+        <div class="chart-box" style="height:170px;"><canvas id="p1DonutComposicao"></canvas></div>
+        <div class="legend-list" id="p1ComposicaoLegend"></div>
+        <div class="destaque-callout" id="p1ComposicaoObs" style="margin-top:10px;"></div>
+        <div class="card-subsection">
+          <div class="card-subtitle">Vendas por Consultor — 2026</div>
+          <div class="donut-col">
+            <div class="chart-box"><canvas id="p1DonutConsultor"></canvas></div>
+            <div class="legend-list" id="p1ConsultorLegend" style="flex:1;"></div>
+          </div>
+          <div class="kpi-sub" style="margin-top:8px;">"Venda Direta" refere-se às vendas sem consultor identificado no cadastro.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Composição da Carteira por Produto</div>
+        <div class="donut-col">
+          <div class="chart-box" style="width:120px; height:120px; flex-shrink:0;"><canvas id="p1DonutCarteiraProduto"></canvas></div>
+          <div class="legend-list" id="p1CarteiraProdutoLegend" style="flex:1;"></div>
+        </div>
+        <div class="card-subsection">
+          <div class="card-subtitle" id="p1IncDiaTitle">Inclusões Individuais e Empresariais por Dia</div>
+          <div class="chart-box" style="height:120px;"><canvas id="p1BarInclusoes"></canvas></div>
+          <div class="entrada-hoje">
+            <div class="entrada-hoje-label">Entradas Individual (Hoje)</div>
+            <div class="entrada-hoje-value" id="p1EntradaHojeValue">+0</div>
+            <div class="entrada-hoje-sub" id="p1EntradaHojeSub"></div>
+          </div>
+          <div class="destaques-list" id="p1Destaques"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Vendas Individual por Produto — 2026</div>
+        <div class="table-scroll"><table class="dash-table" id="p1VendasTable"></table></div>
+        <div class="rank-row" id="p1Ranking"></div>
+        <div class="stat-row" id="p1Stats"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Inclusões por Mês e Tipo — 2026</div>
+      <div class="table-scroll"><table class="dash-table dash-table-center" id="p1PivotMesTipo"></table></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Valor das Inclusões por Mês e Tipo — 2026</div>
+      <div class="table-scroll"><table class="dash-table dash-table-center" id="p1PivotMesTipoValor"></table></div>
+    </div>
+    <div class="card">
+      <div class="card-title" id="p1IncJunConsultorTitle">Inclusões de Junho/2026 por Consultor/Corretora</div>
+      <div class="table-scroll"><table class="dash-table dash-table-center" id="p1IncJunConsultorTable"></table></div>
+    </div>
+    <!-- Mensagem da diretoria removida -->
+  </div>
+
+
+
+  <div class="page-footer">
+    <span id="footFonte">Fonte: Sistema de Gestão DR. HOJE</span>
+    <span id="footAtualizado" style="display: none;">Dados atualizados em --/--/----</span>
+  </div>
+
+</div>
+
+<script src="assets/data/encrypted_payload.js"></script>
+<script src="assets/js/dashboard.js"></script>
+
+</div>
+</body>
+</html>
